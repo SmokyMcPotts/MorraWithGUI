@@ -9,10 +9,10 @@ import { loadStdlib } from '@reach-sh/stdlib';
 const reach = loadStdlib(process.env);
 
 import { ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
-reach.setWalletFallback(reach.walletFallback({
-  providerEnv: 'TestNet', MyAlgoConnect }));
+reach.setWalletFallback(reach.walletFallback(MyAlgoConnect));
+//walletconnect might be wrong
 
-const convAnswer = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const convAnswer = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 const convOutcome = ['Alice Wins!', 'Bob Wins!', 'Draw'];
 const {standardUnit} = reach;
 const defaults = {defaultFundAmt: '1000', defaultWager: '10', standardUnit};
@@ -30,16 +30,16 @@ class App extends React.Component {
         if(await reach.canFundFromFaucet()){
             this.setState({view: 'FundAccount'});
         } else {
-            this.setState({view: 'AttacherOrDeployer'});
+            this.setState({view: 'DeployerOrAttacher'});
         }
     }
     async fundAccount(fundAmount) {
         await reach.fundFromFaucet(this.state.acc, reach.parseCurrency(fundAmount));
-        this.setState({view: 'AttacherOrDeployer'});
+        this.setState({view: 'DeployerOrAttacher'});
     }
-    async skipFundAccount() {this.setState({view: 'AttacherOrDeployer'}); }
-    selectAlice() {this.setState({view: 'Wrapper', ContentView: Attacher});}
-    selectBob() {this.setState({view: 'Wrapper', ContentView: Deployer});}
+    async skipFundAccount() {this.setState({view: 'DeployerOrAttacher'}); }
+    selectAlice() {this.setState({view: 'Wrapper', ContentView: Deployer});}
+    selectBob() {this.setState({view: 'Wrapper', ContentView: Attacher});}
     render() { return renderView(this, AppViews);}
 }
 
